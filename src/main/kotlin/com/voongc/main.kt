@@ -5,7 +5,7 @@ import com.voongc.client.FeedMeClient
 fun main() {
     val client = FeedMeClient("localhost",8282)
     try {
-        client.listen()
+        client.read()
     } finally {
         client.clientSocket.close()
     }

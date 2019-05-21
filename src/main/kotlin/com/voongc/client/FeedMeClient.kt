@@ -12,17 +12,14 @@ class FeedMeClient (val host:String,val port:Int) : TcpClient {
     val clientSocket = Socket(host,port)
     val reader = BufferedReader(InputStreamReader(clientSocket.getInputStream()))
     val transform = JsonTransform()
-    val gson = GsonBuilder().setPrettyPrinting().serializeNulls().create()
+    val gson = GsonBuilder().serializeNulls().create()
 
 
     fun read() {
 
         while (true){
             //read each line
-            val line = reader.readLine()
-
-            if (line==null)
-                break
+            val line = reader.readLine() ?: break
 
             println("raw message: $line")
 

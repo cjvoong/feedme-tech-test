@@ -4,6 +4,7 @@ import com.voongc.data.Event
 import com.voongc.data.FeedMessage
 import com.voongc.data.Market
 import com.voongc.data.Outcome
+import java.lang.IllegalArgumentException
 
 class JsonTransform {
 
@@ -19,13 +20,14 @@ class JsonTransform {
 
     fun fromOutcomeToJson(message:FeedMessage): Outcome {
         val data = message.data
-        return Outcome(data[0],data[1],data[2],data[3],convertBoolean(data[4]),convertBoolean(data[4]))
+        return Outcome(data[0],data[1],data[2],data[3],convertBoolean(data[4]),convertBoolean(data[5]))
     }
 
     private fun convertBoolean(bit:String) =
         when (bit) {
             "0" -> false
             "1" -> true
-            else -> false}
+            else -> throw IllegalArgumentException("Couldn't convert $bit to Boolean")
+        }
 }
 

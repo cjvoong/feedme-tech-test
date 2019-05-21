@@ -21,7 +21,7 @@ data class FeedMessage (
     companion object {
         fun fromString(feedString:String):FeedMessage{
             val feedList = feedString.split(Regex("(?<!\\\\)\\|")).dropLast(1).drop(1)
-            val data = feedList.takeLast(feedList.size-5)
+            val data = feedList.takeLast(feedList.size-4)
             println("data: $data")
             return FeedMessage(feedList[0],feedList[1],Type.valueOf(feedList[2]),feedList[3].toLong(),data)
         }

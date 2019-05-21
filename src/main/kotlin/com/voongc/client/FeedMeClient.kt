@@ -15,11 +15,14 @@ class FeedMeClient (val host:String,val port:Int) : TcpClient {
     val gson = GsonBuilder().setPrettyPrinting().serializeNulls().create()
 
 
-    fun read(): FeedMessage {
-        var line:String
-        do {
+    fun read() {
+
+        while (true){
             //read each line
-            line = reader.readLine()
+            val line = reader.readLine()
+
+            if (line==null)
+                break
 
             println("raw message: $line")
 
@@ -40,8 +43,6 @@ class FeedMeClient (val host:String,val port:Int) : TcpClient {
 
             //print it
             println("json: $jsonString")
-
-            return message
-        } while (line != null)
+        }
     }
 }

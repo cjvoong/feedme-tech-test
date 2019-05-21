@@ -3,6 +3,7 @@ package com.voongc.client
 import com.google.gson.GsonBuilder
 import com.voongc.data.FeedMessage
 import com.voongc.data.Type
+import com.voongc.repository.EventRepository
 import com.voongc.transformers.JsonTransform
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -40,6 +41,8 @@ class FeedMeClient (val host:String,val port:Int) : TcpClient {
 
             //print it
             println("json: $jsonString")
+
+            EventRepository.writeToRepository(jsonString)
         }
     }
 }

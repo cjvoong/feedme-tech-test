@@ -1,6 +1,7 @@
 package com.voongc.client
 
 import com.google.gson.GsonBuilder
+import com.voongc.data.Event
 import com.voongc.data.FeedMessage
 import com.voongc.data.Type
 import com.voongc.repository.EventRepository
@@ -42,7 +43,10 @@ class FeedMeClient (val host:String,val port:Int) : TcpClient {
             //print it
             println("json: $jsonString")
 
-            EventRepository.writeToRepository(jsonString)
+            if (dataObject is Event)
+                EventRepository.updateEvent(dataObject)
+
+            //EventRepository.writeToRepository(jsonString)
         }
     }
 }

@@ -14,11 +14,11 @@ object EventRepository {
 
 
     //not currently working, update data model to show embedded
-    fun updateMarket(eventId:String,market: EMarket) {
-        val col = db.getCollection<EEvent>("catalogue") //KMongo extension method
+    fun updateMarket(eventId:String,market: Market) {
+        val col = db.getCollection<Event>("catalogue") //KMongo extension method
 
         //fetch the event on which the market belongs
-        val event = col.findOne(EEvent::id eq eventId)
+        val event = col.findOne(Event::id eq eventId)
 
         if (event == null) {
             println("Couldn't find event with id: $eventId")
@@ -41,12 +41,12 @@ object EventRepository {
         println("Updated market $event")
 
         //save into collection
-        val result = col.replaceOne(EEvent::id eq eventId, event, upsert())
+        val result = col.replaceOne(Event::id eq eventId, event, upsert())
         println(result)
     }
 
-    fun updateOutcome(marketId:String,outcome: EOutcome){
-        val col = db.getCollection<EEvent>("catalogue") //KMongo extension method
+    fun updateOutcome(marketId:String,outcome: Outcome){
+        val col = db.getCollection<Event>("catalogue") //KMongo extension method
         val filter = eq("markets.id",marketId)
         val event = col.findOne(filter)
 
@@ -75,17 +75,17 @@ object EventRepository {
         println("Updated outcome $event")
 
         //save back into the collection
-        val result = col.replaceOne(EEvent::id eq event.id,event, upsert())
+        val result = col.replaceOne(Event::id eq event.id,event, upsert())
 
         println(result)
     }
 
-    fun updateEvent(event: EEvent){
+    fun updateEvent(event: Event){
         //fetch event
-        val col = db.getCollection<EEvent>("catalogue") //KMongo extension method
+        val col = db.getCollection<Event>("catalogue") //KMongo extension method
         println("Updated event $event")
 
-        val result = col.replaceOne(EEvent::id eq event.id,event,upsert())
+        val result = col.replaceOne(Event::id eq event.id,event,upsert())
         println(result)
 
     }

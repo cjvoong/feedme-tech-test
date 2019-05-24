@@ -38,23 +38,18 @@ class FeedMeClient (val host:String,val port:Int) : TcpClient {
             println("data: $dataObject")
 
             when (dataObject){
-                is EEvent -> EventRepository.updateEvent(dataObject)
-                is EMarket -> EventRepository.updateMarket(message.data[0],dataObject)
-                is EOutcome -> EventRepository.updateOutcome(message.data[0],dataObject)
+                is Event -> EventRepository.updateEvent(dataObject)
+                is Market -> EventRepository.updateMarket(message.data[0],dataObject)
+                is Outcome -> EventRepository.updateOutcome(message.data[0],dataObject)
                 else -> println("Not writing")
             }
 
-//
-//            //serialize it as a json string
-//            val jsonString = gson.toJson(dataObject)
-//
-//            //print it
-//            println("json: $jsonString")
-//
-//            if (dataObject is Event)
-//                EventRepository.updateEvent(dataObject)
-//
-//            //EventRepository.writeToRepository(jsonString)
+            //serialize it as a json string
+            val jsonString = gson.toJson(dataObject)
+
+            //print it
+            println("json: $jsonString")
+
         }
     }
 }

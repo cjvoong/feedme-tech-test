@@ -5,20 +5,20 @@ import java.lang.IllegalArgumentException
 
 class JsonTransform {
 
-    fun fromEventToJson(message:FeedMessage): EEvent {
+    fun fromEventToJson(message:FeedMessage): Event {
         val data = message.data
-        return EEvent(data[0],data[1],data[2],data[3],data[4].toLong(),convertBoolean(data[5]),convertBoolean(data[6]),
-            mutableListOf<EMarket>())
+        return Event(data[0],data[1],data[2],data[3],data[4].toLong(),convertBoolean(data[5]),convertBoolean(data[6]),
+            mutableListOf<Market>())
     }
 
-    fun fromMarketToJson(message:FeedMessage): EMarket {
+    fun fromMarketToJson(message:FeedMessage): Market {
         val data = message.data
-        return EMarket(data[1],data[2],convertBoolean(data[3]),convertBoolean(data[4]), mutableListOf<EOutcome>())
+        return Market(data[1],data[2],convertBoolean(data[3]),convertBoolean(data[4]), mutableListOf<Outcome>())
     }
 
-    fun fromOutcomeToJson(message:FeedMessage): EOutcome {
+    fun fromOutcomeToJson(message:FeedMessage): Outcome {
         val data = message.data
-        return EOutcome(data[1],data[2],data[3],convertBoolean(data[4]),convertBoolean(data[5]))
+        return Outcome(data[1],data[2],data[3],convertBoolean(data[4]),convertBoolean(data[5]))
     }
 
     private fun convertBoolean(bit:String) =

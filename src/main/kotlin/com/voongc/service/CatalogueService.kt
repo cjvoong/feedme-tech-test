@@ -3,11 +3,11 @@ package com.voongc.service
 import com.voongc.data.Event
 import com.voongc.data.Market
 import com.voongc.data.Outcome
-import com.voongc.repository.CatalogueRepository
+import com.voongc.repository.CatalogueMongoRepository
 
 class CatalogueService{
 
-    val repo = CatalogueRepository()
+    val repo = CatalogueMongoRepository()
 
     fun updateEvent(event: Event){
         repo.updateEvent(event)

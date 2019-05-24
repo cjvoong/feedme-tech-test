@@ -50,4 +50,5 @@ test/integration
 # Excel temp files
 app/mappings/~*
 
-.gradle
+.gradle/*
+out/*

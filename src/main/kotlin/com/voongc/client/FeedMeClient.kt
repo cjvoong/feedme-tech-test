@@ -1,9 +1,7 @@
 package com.voongc.client
 
 import com.google.gson.GsonBuilder
-import com.voongc.data.Event
-import com.voongc.data.FeedMessage
-import com.voongc.data.Type
+import com.voongc.data.*
 import com.voongc.repository.EventRepository
 import com.voongc.transformers.JsonTransform
 import java.io.BufferedReader
@@ -28,6 +26,8 @@ class FeedMeClient (val host:String,val port:Int) : TcpClient {
             //deserialize as messageObject
             var message = FeedMessage.fromString(line)
 
+            println("message $message")
+
             //transform to object
             val dataObject = when (message.type) {
                 Type.event -> transform.fromEventToJson(message)
@@ -37,16 +37,24 @@ class FeedMeClient (val host:String,val port:Int) : TcpClient {
 
             println("data: $dataObject")
 
-            //serialize it as a json string
-            val jsonString = gson.toJson(dataObject)
+            when (dataObject){
+                is EEvent -> EventRepository.updateEvent(dataObject)
+                is EMarket -> EventRepository.updateMarket(message.data[0],dataObject)
+                is EOutcome -> EventRepository.updateOutcome(message.data[0],dataObject)
+                else -> println("Not writing")
+            }
 
-            //print it
-            println("json: $jsonString")
-
-            if (dataObject is Event)
-                EventRepository.updateEvent(dataObject)
-
-            //EventRepository.writeToRepository(jsonString)
+//
+//            //serialize it as a json string
+//            val jsonString = gson.toJson(dataObject)
+//
+//            //print it
+//            println("json: $jsonString")
+//
+//            if (dataObject is Event)
+//                EventRepository.updateEvent(dataObject)
+//
+//            //EventRepository.writeToRepository(jsonString)
         }
     }
 }

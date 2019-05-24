@@ -5,7 +5,7 @@ import com.mongodb.client.model.Filters.eq
 import org.litote.kmongo.*
 import com.voongc.data.*
 
-object EventRepository {
+class CatalogueRepository {
     val gson = GsonBuilder().serializeNulls().create()
 
 

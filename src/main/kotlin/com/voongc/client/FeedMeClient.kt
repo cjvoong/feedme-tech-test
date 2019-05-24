@@ -2,7 +2,7 @@ package com.voongc.client
 
 import com.google.gson.GsonBuilder
 import com.voongc.data.*
-import com.voongc.repository.EventRepository
+import com.voongc.service.CatalogueService
 import com.voongc.transformers.JsonTransform
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -13,6 +13,7 @@ class FeedMeClient (val host:String,val port:Int) : TcpClient {
     val reader = BufferedReader(InputStreamReader(clientSocket.getInputStream()))
     val transform = JsonTransform()
     val gson = GsonBuilder().serializeNulls().create()
+    val service = CatalogueService()
 
 
     fun read() {
@@ -38,9 +39,9 @@ class FeedMeClient (val host:String,val port:Int) : TcpClient {
             println("data: $dataObject")
 
             when (dataObject){
-                is Event -> EventRepository.updateEvent(dataObject)
-                is Market -> EventRepository.updateMarket(message.data[0],dataObject)
-                is Outcome -> EventRepository.updateOutcome(message.data[0],dataObject)
+                is Event -> service.updateEvent(dataObject)
+                is Market -> service.updateMarket(message.data[0],dataObject)
+                is Outcome -> service.updateOutcome(message.data[0],dataObject)
                 else -> println("Not writing")
             }
 
